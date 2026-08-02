@@ -1,4 +1,4 @@
-                  <!DOCTYPE html>
+                 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -56,5 +56,154 @@
       transform: scale(0.96);
       border-color: #f59e0b;
       background-color: rgba(217, 119, 6, 0.25);
-      box-shadow: 0 0 15px rgba(245,
-         
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+    }
+
+    /* Marco de foto de perfil */
+    .profile-frame {
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.4);
+      border: 3px solid #f59e0b;
+      transition: transform 0.3s ease;
+    }
+    .profile-frame:hover {
+      transform: scale(1.04) rotate(1deg);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-between p-4 max-w-md mx-auto relative">
+
+  <video autoplay loop muted playsinline id="bg-video">
+    <source src="fondo.mp4" type="video/mp4">
+  </video>
+  <div class="overlay"></div>
+
+  <div class="w-full text-center mt-4">
+    <div class="w-28 h-28 rounded-full profile-frame overflow-hidden mx-auto mb-3">
+      <img src="perfil.jpg" alt="Barbería Yahweh" class="w-full h-full object-cover">
+    </div>
+    <h1 class="text-2xl font-black tracking-wider uppercase text-white drop-shadow-md">BARBERÍA YAHWEH</h1>
+    <p class="text-slate-300 text-xs font-medium tracking-wide mt-1">Estilo & Precisión Profesional</p>
+    
+    <div class="mt-3 bg-slate-900/80 backdrop-blur-md py-2 px-3 rounded-xl border border-slate-700/60 inline-block">
+      <p class="text-xs text-amber-400 font-medium">
+        <i class="fa-solid fa-location-dot mr-1"></i>
+        Maturín, Av. Bicentenario, diagonal al Hotel Luciano Junior
+      </p>
+    </div>
+  </div>
+
+  <div class="flex gap-4 my-4">
+    <a href="https://instagram.com/barberia_yaweh" target="_blank" class="w-11 h-11 rounded-full bg-slate-800/80 border border-slate-600 flex items-center justify-center text-slate-200 hover:text-amber-400 hover:border-amber-400 transition">
+      <i class="fa-brands fa-instagram text-xl"></i>
+    </a>
+    <a href="https://tiktok.com/@barberiayaweh" target="_blank" class="w-11 h-11 rounded-full bg-slate-800/80 border border-slate-600 flex items-center justify-center text-slate-200 hover:text-amber-400 hover:border-amber-400 transition">
+      <i class="fa-brands fa-tiktok text-xl"></i>
+    </a>
+  </div>
+
+  <div class="w-full space-y-3 my-2">
+    <h2 class="text-xs font-bold text-slate-300 uppercase tracking-widest mb-3 text-center">Reserva tu cita en línea</h2>
+
+    <button onclick="selectService(this, 'Corte Básico ($6.00)')" class="service-btn w-full bg-slate-900/80 p-3.5 rounded-xl flex justify-between items-center border border-slate-700/80 shadow-lg">
+      <span class="font-semibold text-sm">Corte Básico</span>
+      <span class="gold-text font-bold text-base">$6.00</span>
+    </button>
+
+    <button onclick="selectService(this, 'Corte y Barba ($8.00)')" class="service-btn w-full bg-slate-900/80 p-3.5 rounded-xl flex justify-between items-center border border-slate-700/80 shadow-lg">
+      <span class="font-semibold text-sm">Corte y Barba</span>
+      <span class="gold-text font-bold text-base">$8.00</span>
+    </button>
+
+    <button onclick="selectService(this, 'Servicio Premium ($10.00)')" class="service-btn w-full bg-slate-900/80 p-3.5 rounded-xl flex justify-between items-center border border-slate-700/80 shadow-lg">
+      <span class="font-semibold text-sm">Servicio Premium</span>
+      <span class="gold-text font-bold text-base">$10.00</span>
+    </button>
+
+    <button onclick="selectService(this, 'Solo Barba ($3.00)')" class="service-btn w-full bg-slate-900/80 p-3.5 rounded-xl flex justify-between items-center border border-slate-700/80 shadow-lg">
+      <span class="font-semibold text-sm">Solo Barba</span>
+      <span class="gold-text font-bold text-base">$3.00</span>
+    </button>
+
+    <button onclick="selectService(this, 'Limpieza Facial ($3.00)')" class="service-btn w-full bg-slate-900/80 p-3.5 rounded-xl flex justify-between items-center border border-slate-700/80 shadow-lg">
+      <span class="font-semibold text-sm">Limpieza Facial</span>
+      <span class="gold-text font-bold text-base">$3.00</span>
+    </button>
+
+    <button onclick="selectService(this, 'Cejas ($1.50)')" class="service-btn w-full bg-slate-900/80 p-3.5 rounded-xl flex justify-between items-center border border-slate-700/80 shadow-lg">
+      <span class="font-semibold text-sm">Perfilado de Cejas</span>
+      <span class="gold-text font-bold text-base">$1.50</span>
+    </button>
+  </div>
+
+  <div id="bookingModal" class="fixed inset-0 bg-black/85 hidden items-center justify-center p-4 z-50 backdrop-blur-sm">
+    <div class="bg-slate-900 p-6 rounded-2xl w-full max-w-xs border border-amber-500/40 space-y-4 shadow-2xl">
+      <h3 id="serviceTitle" class="text-lg font-bold text-center gold-text"></h3>
+      <div>
+        <label class="text-xs text-slate-400 font-medium">Tu Nombre</label>
+        <input type="text" id="clientName" placeholder="Ej: Carlos Pérez" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 mt-1 text-white focus:outline-none focus:border-amber-500 text-sm">
+      </div>
+      <div>
+        <label class="text-xs text-slate-400 font-medium">Fecha de la cita</label>
+        <input type="date" id="bookingDate" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 mt-1 text-white focus:outline-none focus:border-amber-500 text-sm">
+      </div>
+      <div>
+        <label class="text-xs text-slate-400 font-medium">Hora deseada</label>
+        <input type="time" id="bookingTime" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 mt-1 text-white focus:outline-none focus:border-amber-500 text-sm">
+      </div>
+      <div class="flex gap-2 pt-2">
+        <button onclick="closeModal()" class="w-1/2 bg-slate-700 hover:bg-slate-600 p-2.5 rounded-lg text-sm font-semibold">Cancelar</button>
+        <button onclick="sendWhatsApp()" class="w-1/2 gold-bg font-bold p-2.5 rounded-lg text-sm text-slate-950 shadow-lg">Agendar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="w-full text-center text-xs text-slate-400 my-4 space-y-1 bg-slate-900/60 p-3 rounded-xl backdrop-blur-md border border-slate-800">
+    <p><strong class="text-amber-400">Pago Móvil:</strong> Bancamiga (0172)</p>
+    <p>CI: V-26.655.507 | Tel: 0412-2799156</p>
+  </div>
+
+  <script>
+    let selectedService = '';
+    const myPhone = "584122799156";
+
+    function selectService(btn, service) {
+      document.querySelectorAll('.service-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+
+      setTimeout(() => {
+        openBooking(service);
+      }, 150);
+    }
+
+    function openBooking(service) {
+      selectedService = service;
+      document.getElementById('serviceTitle').innerText = service;
+      document.getElementById('bookingModal').classList.remove('hidden');
+      document.getElementById('bookingModal').classList.add('flex');
+    }
+
+    function closeModal() {
+      document.getElementById('bookingModal').classList.add('hidden');
+      document.getElementById('bookingModal').classList.remove('flex');
+      document.querySelectorAll('.service-btn').forEach(b => b.classList.remove('selected'));
+    }
+
+    function sendWhatsApp() {
+      const name = document.getElementById('clientName').value;
+      const date = document.getElementById('bookingDate').value;
+      const time = document.getElementById('bookingTime').value;
+
+      if (!name || !date || !time) {
+        alert('Por favor completa todos los campos.');
+        return;
+      }
+
+      const msg = `¡Hola Barbería Yahweh! Quisiera agendar una cita:\n\n❖ Servicio: ${selectedService}\n❖ Nombre: ${name}\n❖ Fecha: ${date}\n❖ Hora: ${time}`;
+      const url = `https://wa.me/${myPhone}?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+      closeModal();
+    }
+  </script>
+</body>
+</html>
+ 
